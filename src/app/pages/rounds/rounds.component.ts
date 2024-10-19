@@ -8,7 +8,7 @@ import { RoundService } from '../../services/round/round.service';
 @Component({
   selector: 'app-rounds',
   templateUrl: './rounds.component.html',
-  styleUrls: ['./rounds.component.css'],
+  styleUrls: ['./rounds.component.scss'],
   standalone: true,
   imports: [CommonModule, FormsModule],
 })

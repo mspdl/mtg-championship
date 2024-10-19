@@ -1,74 +1,76 @@
-<div *ngFor="let player of players; let index = index">
-  <p>#{{ index + 1 }} {{ player.name }} - {{ player.score }}</p>
-</div>
-<button mat-button (click)="goToRounds()">Rodadas</button>
+<div class="ranking">
+  <h2>Ranking</h2>
 
-<table
-  mat-table
-  [dataSource]="players"
-  multiTemplateDataRows
-  class="mat-elevation-z8"
->
-  @for (column of columnsToDisplay; track column) {
-  <ng-container matColumnDef="{{ column }}">
-    <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
-    <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
-  </ng-container>
-  }
-  <ng-container matColumnDef="expand">
-    <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
-    <td mat-cell *matCellDef="let element">
-      <button
-        mat-icon-button
-        aria-label="expand row"
-        (click)="
-          expandedElement = expandedElement === element ? null : element;
-          $event.stopPropagation()
-        "
-      >
-        @if (expandedElement === element) {
-        <mat-icon>keyboard_arrow_up</mat-icon>
-        } @else {
-        <mat-icon>keyboard_arrow_down</mat-icon>
-        }
-      </button>
-    </td>
-  </ng-container>
+  <table
+    mat-table
+    [dataSource]="players"
+    multiTemplateDataRows
+    class="mat-elevation-z8"
+  >
+    @for (column of columnsToDisplay; track column) {
+    <ng-container matColumnDef="{{ column }}">
+      <th mat-header-cell *matHeaderCellDef>{{ column | columnHeader }}</th>
+      <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+    </ng-container>
+    }
+    <ng-container matColumnDef="expand">
+      <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          aria-label="expand row"
+          (click)="
+            expandedElement = expandedElement === element ? undefined : element;
+            $event.stopPropagation()
+          "
+        >
+          @if (expandedElement === element) {
+          <mat-icon>keyboard_arrow_up</mat-icon>
+          } @else {
+          <mat-icon>keyboard_arrow_down</mat-icon>
+          }
+        </button>
+      </td>
+    </ng-container>
 
-  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-  <ng-container matColumnDef="expandedDetail">
-    <td
-      mat-cell
-      *matCellDef="let element"
-      [attr.colspan]="columnsToDisplayWithExpand.length"
-    >
-      element {{ element | json }} expandedElement {{ expandedElement | json }}
-      <div
-        class="example-element-detail"
-        [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'"
+    <ng-container matColumnDef="expandedDetail">
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [attr.colspan]="columnsToDisplayWithExpand.length"
       >
-        <div class="example-element-diagram">aqui é a descrição do bagulho</div>
-        <div class="example-element-description">
-          {{ element.description }}
-          <span class="example-element-description-attribution">
-            -- Wikipedia
-          </span>
+        <div
+          class="example-element-detail"
+          [@detailExpand]="
+            element == expandedElement ? 'expanded' : 'collapsed'
+          "
+        >
+          element {{ element | json }} expandedElement
+          {{ expandedElement | json }}
         </div>
-      </div>
-    </td>
-  </ng-container>
+      </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
-  <tr
-    mat-row
-    *matRowDef="let element; columns: columnsToDisplayWithExpand"
-    class="example-element-row"
-    [class.example-expanded-row]="expandedElement === element"
-    (click)="expandedElement = expandedElement === element ? null : element"
-  ></tr>
-  <tr
-    mat-row
-    *matRowDef="let row; columns: ['expandedDetail']"
-    class="example-detail-row"
-  ></tr>
-</table>
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+    <tr
+      mat-row
+      *matRowDef="let element; columns: columnsToDisplayWithExpand"
+      class="example-element-row"
+      [class.example-expanded-row]="expandedElement === element"
+      (click)="
+        expandedElement = expandedElement === element ? undefined : element
+      "
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: ['expandedDetail']"
+      class="example-detail-row"
+      [style.display]="expandedElement === row ? '' : 'none'"
+    ></tr>
+  </table>
+
+  <div class="ranking__footer">
+    <button mat-raised-button (click)="goToPlayers()">Jogadores</button>
+    <button mat-flat-button (click)="goToRounds()">Rodadas</button>
+  </div>
+</div>
