@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { CreatePlayersComponent } from './components/create-players/create-players.component';
+import { CreatePlayersComponent } from './pages/create-players/create-players.component';
 import { PlayerService } from './services/player/player.service';
 
 @Component({
