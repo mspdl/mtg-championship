@@ -1,0 +1,15 @@
+<h1>Nova rodada</h1>
+<div *ngFor="let game of round?.games; let index = index">
+  Jogo {{ game.id }}
+  <p>
+    {{ game.player1.name }}
+    <input matInput type="number" [(ngModel)]="game.score1" /> vs
+    {{ game.player2.name }}
+    <input matInput type="number" [(ngModel)]="game.score2" />
+  </p>
+  <hr />
+</div>
+
+<p>{{ round | json }}</p>
+
+<button (click)="saveRound()">Gravar Rodada</button>

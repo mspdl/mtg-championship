@@ -1,0 +1,9 @@
+<h1>rodadas</h1>
+<div *ngFor="let round of rounds">
+  <h2>Rodada {{ round.id + 1 }}</h2>
+  <p *ngFor="let game of round.games">
+    {{ game.player1.name }} {{ game.score1 }} x {{ game.score2 }}
+    {{ game.player2.name }}
+  </p>
+</div>
+<button mat-button (click)="createdRound()">Adicionar Rodada</button>

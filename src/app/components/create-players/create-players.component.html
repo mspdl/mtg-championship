@@ -1,0 +1,58 @@
+<div class="create-players">
+  <div class="create-players__content">
+    <h2>Cadastro de jogadores</h2>
+    <form class="create-players__form">
+      <mat-form-field>
+        <mat-label>Adicionar jogador</mat-label>
+        <input
+          type="text"
+          matInput
+          [formControl]="playerFormControl"
+          placeholder="Ex: Morgan"
+        />
+
+        @if (playerFormControl.hasError('minlength') ||
+        (playerFormControl.hasError('required')) ) {
+        <mat-error>É necessário adicionar com pelo menos 3 letras</mat-error>
+        }
+      </mat-form-field>
+
+      <div class="create-players__form__buttons-area">
+        <button
+          mat-raised-button
+          (click)="addPlayer()"
+          [disabled]="!playerFormControl.value"
+        >
+          Adicionar
+        </button>
+      </div>
+    </form>
+
+    <ng-container *ngIf="players.length > 0; else emptyList">
+      <h3>Jogadores registrados</h3>
+      <mat-card
+        appearance="outlined"
+        *ngFor="let player of players"
+        class="create-players__cards"
+      >
+        <mat-card-content>{{ player.name }}</mat-card-content>
+      </mat-card>
+    </ng-container>
+
+    <ng-template #emptyList
+      ><p class="create-players__no-players">
+        Ainda não há jogadores cadastrados.
+      </p></ng-template
+    >
+  </div>
+
+  <div class="create-players__footer">
+    <button
+      mat-flat-button
+      [disabled]="players.length < 2"
+      (click)="goToRanking()"
+    >
+      Ver Ranking
+    </button>
+  </div>
+</div>
