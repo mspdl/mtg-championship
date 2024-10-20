@@ -9,29 +9,35 @@ export class ScoreService {
   constructor(private readonly playerService: PlayerService) {}
 
   updateScore(game: Game) {
-    if (game.score1 == 2) {
-      game.player1.score += 2;
-    }
-    if (game.score1 == 1) {
-      game.player1.score += 1;
-    }
-    if (game.score2 == 2) {
-      game.player2.score += 2;
-    }
-    if (game.score2 == 1) {
-      game.player2.score += 1;
-    }
+    const players = this.playerService.getPlayers();
 
-    const players = this.playerService.getPlayers()
     players.forEach((player) => {
-      if(player.id === game.player1.id){
-        player.score +=game.player1.score;
-      }
-      if(player.id === game.player2.id){
-        player.score +=game.player2.score;
-      }
-    })
+      if (player.id == game.player1.id) {
+        player.score += game.score1;
 
-    this.playerService.setPlayers(players)
+        if (game.score1 == 2) {
+          player.winTimes += 1;
+          if (game.score2 == 0) {
+            player.win2x0Times += 1;
+          } else {
+            player.win2x1Times += 1;
+          }
+        }
+      }
+      if (player.id == game.player2.id) {
+        player.score += game.score2;
+
+        if (game.score2 == 2) {
+          player.winTimes += 1;
+          if (game.score1 == 0) {
+            player.win2x0Times += 1;
+          } else {
+            player.win2x1Times += 1;
+          }
+        }
+      }
+    });
+
+    this.playerService.setPlayers(players);
   }
 }

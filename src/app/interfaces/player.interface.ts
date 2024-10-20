@@ -4,4 +4,6 @@ export interface Player {
   name: string;
   winTimes: number;
   score: number;
+  win2x0Times: number;
+  win2x1Times: number;
 }

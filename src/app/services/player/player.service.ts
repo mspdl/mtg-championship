@@ -12,6 +12,8 @@ export class PlayerService {
       name: name,
       winTimes: 0,
       score: 0,
+      win2x0Times: 0,
+      win2x1Times: 0,
     };
     players.push(newPlayer);
     this.setPlayers(players);
