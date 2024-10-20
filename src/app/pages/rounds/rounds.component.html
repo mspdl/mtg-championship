@@ -1,46 +1,52 @@
 <div class="rounds">
   <h2>Rodadas</h2>
 
-  <mat-accordion>
-    <mat-expansion-panel
-      (opened)="panelOpenState.set(true)"
-      (closed)="panelOpenState.set(false)"
-      *ngFor="let round of rounds"
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title>Rodada {{ round.id }}</mat-panel-title>
-        <mat-panel-description> </mat-panel-description>
-      </mat-expansion-panel-header>
+  <ng-container *ngIf="rounds.length > 0; else emptyList">
+    <mat-accordion>
+      <mat-expansion-panel
+        (opened)="panelOpenState.set(true)"
+        (closed)="panelOpenState.set(false)"
+        *ngFor="let round of rounds"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>Rodada {{ round.id }}</mat-panel-title>
+          <mat-panel-description> </mat-panel-description>
+        </mat-expansion-panel-header>
 
-      <div *ngFor="let game of round.games" class="rounds__games">
-        <div
-          class="rounds__games__player"
-          [class.rounds__games__winner]="game.score1 === 2"
-        >
-          {{ game.player1.name }}
+        <div *ngFor="let game of round.games" class="rounds__games">
+          <div
+            class="rounds__games__player"
+            [class.rounds__games__winner]="game.score1 === 2"
+          >
+            {{ game.player1.name }}
+          </div>
+          <div
+            class="rounds__games__score"
+            [class.rounds__games__winner]="game.score1 === 2"
+          >
+            {{ game.score1 }}
+          </div>
+          <div class="rounds__games__x">x</div>
+          <div
+            class="rounds__games__score"
+            [class.rounds__games__winner]="game.score2 === 2"
+          >
+            {{ game.score2 }}
+          </div>
+          <div
+            class="rounds__games__player"
+            [class.rounds__games__winner]="game.score2 === 2"
+          >
+            {{ game.player2.name }}
+          </div>
         </div>
-        <div
-          class="rounds__games__score"
-          [class.rounds__games__winner]="game.score1 === 2"
-        >
-          {{ game.score1 }}
-        </div>
-        <div class="rounds__games__x">x</div>
-        <div
-          class="rounds__games__score"
-          [class.rounds__games__winner]="game.score2 === 2"
-        >
-          {{ game.score2 }}
-        </div>
-        <div
-          class="rounds__games__player"
-          [class.rounds__games__winner]="game.score2 === 2"
-        >
-          {{ game.player2.name }}
-        </div>
-      </div>
-    </mat-expansion-panel>
-  </mat-accordion>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </ng-container>
+
+  <ng-template #emptyList
+    ><p class="rounds__no-rounds">Não há rodadas cadastradas</p></ng-template
+  >
 
   <div class="rounds__add">
     <button mat-fab extended (click)="addRound()">
