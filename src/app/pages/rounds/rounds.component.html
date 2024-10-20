@@ -1,9 +1,27 @@
-<h1>rodadas</h1>
-<div *ngFor="let round of rounds">
-  <h2>Rodada {{ round.id + 1 }}</h2>
-  <p *ngFor="let game of round.games">
-    {{ game.player1.name }} {{ game.score1 }} x {{ game.score2 }}
-    {{ game.player2.name }}
-  </p>
+<div class="rounds">
+  <h2>Rodadas</h2>
+
+  <button mat-button (click)="addRound()">Adicionar Rodada</button>
+
+  <mat-accordion>
+    <mat-expansion-panel
+      (opened)="panelOpenState.set(true)"
+      (closed)="panelOpenState.set(false)"
+      *ngFor="let round of rounds"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>Rodada {{round.id}}</mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p *ngFor="let game of round.games">
+        {{ game.player1.name }} {{ game.score1 }} x {{ game.score2 }}
+        {{ game.player2.name }}
+      </p>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <div class="rounds__footer">
+    <button mat-flat-button (click)="goToRanking()">Ranking</button>
+  </div>
 </div>
-<button mat-button (click)="createdRound()">Adicionar Rodada</button>

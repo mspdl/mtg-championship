@@ -6,8 +6,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Player } from '../../interfaces/player.interface';
-import { PlayerService } from '../../services/player/player.service';
 import { ColumnHeaderPipe } from '../../pipes/column-header.pipe';
+import { PlayerService } from '../../services/player/player.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-ranking',
@@ -19,6 +20,7 @@ import { ColumnHeaderPipe } from '../../pipes/column-header.pipe';
     MatButtonModule,
     MatIconModule,
     ColumnHeaderPipe,
+
   ],
   templateUrl: './ranking.component.html',
   styleUrl: './ranking.component.scss',

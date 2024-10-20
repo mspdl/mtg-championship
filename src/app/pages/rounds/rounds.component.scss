@@ -1,0 +1,19 @@
+.rounds {
+
+  h2 {
+    text-align: center;
+  }
+
+  &__footer {
+    position: fixed;
+    bottom: 5px;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    margin-left: -10px;
+
+    button {
+      width: 90%;
+    }
+  }
+}

@@ -16,13 +16,11 @@ export class RoundService {
 
   createNewRound() {
     const players = this.playerService.getPlayers();
-    const round: Round = { id: this.getRounds().length, games: [] };
+    const round: Round = { id: this.getRounds().length + 1, games: [] };
     let count = 1;
     for (let i = 0; i < players.length; i++) {
       for (let j = 0; j < players.length; j++) {
         if (i < j) {
-          console.log('i: ' + i + ', j: ' + j);
-
           round.games.push({
             player1: players[i],
             player2: players[j],
@@ -48,7 +46,6 @@ export class RoundService {
     newRound.games.forEach((game) => {
       this.scoreService.updateScore(game);
     });
-    debugger;
     currentRounds.push(newRound);
     localStorage.setItem(this.LOCAL_ROUNDS, JSON.stringify(currentRounds));
   }
