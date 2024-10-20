@@ -1,8 +1,6 @@
 <div class="rounds">
   <h2>Rodadas</h2>
 
-  <button mat-button (click)="addRound()">Adicionar Rodada</button>
-
   <mat-accordion>
     <mat-expansion-panel
       (opened)="panelOpenState.set(true)"
@@ -10,16 +8,46 @@
       *ngFor="let round of rounds"
     >
       <mat-expansion-panel-header>
-        <mat-panel-title>Rodada {{round.id}}</mat-panel-title>
-        <mat-panel-description>
-        </mat-panel-description>
+        <mat-panel-title>Rodada {{ round.id }}</mat-panel-title>
+        <mat-panel-description> </mat-panel-description>
       </mat-expansion-panel-header>
-      <p *ngFor="let game of round.games">
-        {{ game.player1.name }} {{ game.score1 }} x {{ game.score2 }}
-        {{ game.player2.name }}
-      </p>
+
+      <div *ngFor="let game of round.games" class="rounds__games">
+        <div
+          class="rounds__games__player"
+          [class.rounds__games__winner]="game.score1 === 2"
+        >
+          {{ game.player1.name }}
+        </div>
+        <div
+          class="rounds__games__score"
+          [class.rounds__games__winner]="game.score1 === 2"
+        >
+          {{ game.score1 }}
+        </div>
+        <div class="rounds__games__x">x</div>
+        <div
+          class="rounds__games__score"
+          [class.rounds__games__winner]="game.score2 === 2"
+        >
+          {{ game.score2 }}
+        </div>
+        <div
+          class="rounds__games__player"
+          [class.rounds__games__winner]="game.score2 === 2"
+        >
+          {{ game.player2.name }}
+        </div>
+      </div>
     </mat-expansion-panel>
   </mat-accordion>
+
+  <div class="rounds__add">
+    <button mat-fab extended (click)="addRound()">
+      <mat-icon>add</mat-icon>
+      Adicionar Rodada
+    </button>
+  </div>
 
   <div class="rounds__footer">
     <button mat-flat-button (click)="goToRanking()">Ranking</button>

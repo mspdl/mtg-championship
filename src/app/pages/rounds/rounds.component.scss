@@ -1,7 +1,36 @@
 .rounds {
-
   h2 {
     text-align: center;
+  }
+
+  .mat-expansion-panel-header-title {
+    font-size: x-large;
+    text-wrap: nowrap;
+    text-align: center;
+  }
+
+  &__add {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+
+  &__games {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    margin-left: 30px;
+
+    &__player {
+      width: 30%;
+      font-size: large;
+    }
+
+    &__winner {
+      font-weight: bold;
+    }
   }
 
   &__footer {
