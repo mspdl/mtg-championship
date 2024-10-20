@@ -1,15 +1,30 @@
-<h1>Nova rodada</h1>
-<div *ngFor="let game of round?.games; let index = index">
-  Jogo {{ game.id }}
-  <p>
-    {{ game.player1.name }}
-    <input matInput type="number" [(ngModel)]="game.score1" /> vs
-    {{ game.player2.name }}
-    <input matInput type="number" [(ngModel)]="game.score2" />
-  </p>
-  <hr />
+<div class="new-round">
+  <h2>Nova rodada</h2>
+  <div
+    *ngFor="let game of round?.games; let index = index"
+    class="new-round__game"
+  >
+    <h3>Jogo {{ game.id }}:</h3>
+    <div class="new-round__players">
+      <p class="new-round__player-name new-round__first-player-name">
+        {{ game.player1.name }}
+      </p>
+      <select [(ngModel)]="game.score1" class="new-round__score-input">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2" [disabled]="game.score2 == 2">2</option>
+      </select>
+      vs
+      <select [(ngModel)]="game.score2" class="new-round__score-input">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2" [disabled]="game.score1 == 2">2</option>
+      </select>
+      <p class="new-round__player-name">
+        {{ game.player2.name }}
+      </p>
+    </div>
+  </div>
+
+  <button (click)="saveRound()">Gravar Rodada</button>
 </div>
-
-<p>{{ round | json }}</p>
-
-<button (click)="saveRound()">Gravar Rodada</button>

@@ -1,0 +1,33 @@
+.new-round {
+  h2 {
+    text-align: center;
+  }
+
+  &__game {
+    display: flex;
+    align-items: center;
+
+    h3 {
+      margin-right: 5px;
+    }
+  }
+
+  &__players{
+    display: flex;
+    align-items: center;
+  }
+
+  &__score-input {
+    font-size: large;
+    text-align: center;
+    margin: 0 5px;
+  }
+
+  &__player-name {
+    width: 60px;
+  }
+
+  &__first-player-name {
+    text-align: end;
+  }
+}
