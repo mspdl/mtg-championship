@@ -10,7 +10,6 @@ export const routes: Routes = [
   { path: 'ranking', component: RankingComponent },
   { path: 'rounds', component: RoundsComponent },
   { path: 'create-round', component: NewRoundComponent },
-  { path: 'home', component: AppComponent },
-  { path: '**', redirectTo: '/home', pathMatch: 'full' },
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', redirectTo: '/ranking', pathMatch: 'full' },
+  { path: '', redirectTo: '/ranking', pathMatch: 'full' },
 ];
