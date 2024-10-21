@@ -45,8 +45,17 @@
             element == expandedElement ? 'expanded' : 'collapsed'
           "
         >
-          element {{ element | json }} expandedElement
-          {{ expandedElement | json }}
+          @if (element.id == 0) {
+          <p>
+            {{ element.name }} é o Líder do campeonato com
+            {{ element.score }} pontos
+          </p>
+          }
+          <p>
+            {{ element.name }} tem {{ element.winTimes }} vitórias, destas
+            venceu {{ element.win2x0Times }} por 2x0 e
+            {{ element.win2x1Times }} por 2x1
+          </p>
         </div>
       </td>
     </ng-container>
