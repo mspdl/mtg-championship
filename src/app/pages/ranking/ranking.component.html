@@ -45,12 +45,13 @@
             element == expandedElement ? 'expanded' : 'collapsed'
           "
         >
-          @if (element.id == 0) {
+          @if (element.position == 1) {
           <p>
             {{ element.name }} é o Líder do campeonato com
             {{ element.score }} pontos
           </p>
           }
+
           <p>
             {{ element.name }} tem {{ element.winTimes }} vitórias, destas
             venceu {{ element.win2x0Times }} por 2x0 e
