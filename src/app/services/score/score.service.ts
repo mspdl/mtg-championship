@@ -27,7 +27,11 @@ export class ScoreService {
     return player.id === gamePlayer.id;
   }
 
-  private updatePlayerScore(player: Player, playerScore: number, opponentScore: number): void {
+  private updatePlayerScore(
+    player: Player,
+    playerScore: number,
+    opponentScore: number
+  ): void {
     player.score += playerScore;
 
     if (this.isWinner(playerScore)) {

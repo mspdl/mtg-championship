@@ -23,12 +23,6 @@ export class PlayerService {
     return JSON.parse(localStorage.getItem('players') || '[]') as Player[];
   }
 
-  getPlayersByRanking(): Player[] {
-    return this.getPlayers().sort((a, b) =>
-      a.score < b.score ? 1 : b.score < a.score ? -1 : 0
-    );
-  }
-
   setPlayers(players: Player[]) {
     localStorage.setItem('players', JSON.stringify(players));
   }

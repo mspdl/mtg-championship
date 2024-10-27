@@ -7,8 +7,8 @@ import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Player } from '../../interfaces/player.interface';
 import { ColumnHeaderPipe } from '../../pipes/column-header.pipe';
-import { PlayerService } from '../../services/player/player.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ScoreService } from '../../services/score/score.service';
+import { RankingService } from '../../services/ranking/ranking.service';
 
 @Component({
   selector: 'app-ranking',
@@ -20,7 +20,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatButtonModule,
     MatIconModule,
     ColumnHeaderPipe,
-
   ],
   templateUrl: './ranking.component.html',
   styleUrl: './ranking.component.scss',
@@ -32,12 +31,12 @@ export class RankingComponent implements OnInit {
   expandedElement: Player | undefined;
 
   constructor(
-    private readonly playerService: PlayerService,
+    private readonly rankingService: RankingService,
     private readonly router: Router
   ) {}
 
   ngOnInit(): void {
-    this.players = this.playerService.getPlayersByRanking();
+    this.players = this.rankingService.getPlayersByRanking();
     this.players = this.players.map((player, index) => ({
       ...player,
       position: index + 1,
