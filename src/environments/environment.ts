@@ -1,11 +1,12 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: 'FIREBASE_API_KEY',
-    authDomain: 'FIREBASE_AUTH_DOMAIN',
-    projectId: 'FIREBASE_PROJECT_ID',
-    storageBucket: 'FIREBASE_STORAGE_BUCKET',
-    messagingSenderId: 'FIREBASE_MESSAGING_SENDER_ID',
-    appId: 'FIREBASE_APP_ID',
+    apiKey: 'AIzaSyD2TFH6Z_VFcdeeKLtbGfwAkIGVHHL-I54',
+    authDomain: 'mtg-score.firebaseapp.com',
+    projectId: 'mtg-score',
+    storageBucket: 'mtg-score.firebasestorage.app',
+    messagingSenderId: '830306502895',
+    appId: '1:830306502895:web:516aacebc63b7c6ef5731a',
+    measurementId: 'G-1EGVCXHRZ1',
   },
 };
