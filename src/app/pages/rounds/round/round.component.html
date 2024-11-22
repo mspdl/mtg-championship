@@ -7,27 +7,30 @@
     <h3>Jogo {{ game.id }}:</h3>
     <div class="new-round__players">
       <p class="new-round__player-name new-round__first-player-name">
-        {{ game.player1.name }}
+        {{ game.player.name }}
       </p>
-      <select [(ngModel)]="game.score1" class="new-round__score-input">
+      <select [(ngModel)]="game.playerScore" class="new-round__score-input">
         <option [ngValue]="0">0</option>
         <option [ngValue]="1">1</option>
-        <option [ngValue]="2" [disabled]="game.score2 == 2">2</option>
+        <option [ngValue]="2" [disabled]="game.opponentScore == 2">2</option>
       </select>
       vs
-      <select [(ngModel)]="game.score2" class="new-round__score-input">
+      <select [(ngModel)]="game.opponentScore" class="new-round__score-input">
         <option [ngValue]="0">0</option>
         <option [ngValue]="1">1</option>
-        <option [ngValue]="2" [disabled]="game.score1 == 2">2</option>
+        <option [ngValue]="2" [disabled]="game.playerScore == 2">2</option>
       </select>
       <p class="new-round__player-name">
-        {{ game.player2.name }}
+        {{ game.opponent.name }}
       </p>
     </div>
   </div>
 
   <div class="new-round__footer">
-    <button mat-flat-button (click)="saveRound()" [disabled]="!isRoundValid()">
+    <button mat-raised-button (click)="goToRounds()">Voltar</button>
+
+    <button mat-flat-button (click)="saveRound()" >
+    <!-- <button mat-flat-button (click)="saveRound()" [disabled]="!isRoundValid()"> -->
       Gravar Rodada
     </button>
   </div>

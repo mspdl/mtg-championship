@@ -11,7 +11,7 @@ import { ScoreService } from '../../services/score/score.service';
 import { RankingService } from '../../services/ranking/ranking.service';
 
 @Component({
-  selector: 'app-ranking',
+  selector: 'mtg-ranking',
   standalone: true,
   imports: [
     CommonModule,

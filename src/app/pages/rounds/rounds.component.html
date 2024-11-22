@@ -6,38 +6,41 @@
       <mat-expansion-panel
         (opened)="panelOpenState.set(true)"
         (closed)="panelOpenState.set(false)"
-        *ngFor="let round of rounds"
+        *ngFor="let round of rounds; last as last"
       >
         <mat-expansion-panel-header>
-          <mat-panel-title>Rodada {{ round.id }}</mat-panel-title>
+          <mat-panel-title>
+            <span>Rodada {{ round.id }}</span>
+          </mat-panel-title>
+          <mat-icon *ngIf="last" (click)="editRound(round.id)" style="padding-right: 20px;">edit</mat-icon>
           <mat-panel-description> </mat-panel-description>
         </mat-expansion-panel-header>
 
         <div *ngFor="let game of round.games" class="rounds__games">
           <div
             class="rounds__games__player"
-            [class.rounds__games__winner]="game.score1 === 2"
+            [class.rounds__games__winner]="game.playerScore === 2"
           >
-            {{ game.player1.name }}
+            {{ game.player.name }}
           </div>
           <div
             class="rounds__games__score"
-            [class.rounds__games__winner]="game.score1 === 2"
+            [class.rounds__games__winner]="game.playerScore === 2"
           >
-            {{ game.score1 }}
+            {{ game.playerScore }}
           </div>
           <div class="rounds__games__x">x</div>
           <div
             class="rounds__games__score"
-            [class.rounds__games__winner]="game.score2 === 2"
+            [class.rounds__games__winner]="game.opponentScore === 2"
           >
-            {{ game.score2 }}
+            {{ game.opponentScore }}
           </div>
           <div
             class="rounds__games__player"
-            [class.rounds__games__winner]="game.score2 === 2"
+            [class.rounds__games__winner]="game.opponentScore === 2"
           >
-            {{ game.player2.name }}
+            {{ game.opponent.name }}
           </div>
         </div>
       </mat-expansion-panel>

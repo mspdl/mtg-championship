@@ -6,17 +6,13 @@ import { Player } from '../../interfaces/player.interface';
 })
 export class PlayerService {
   addNewPlayer(name: string): void {
-    const players = this.getPlayers();
-    const newPlayer = {
-      id: players.length,
-      name: name,
-      winTimes: 0,
-      score: 0,
-      win2x0Times: 0,
-      win2x1Times: 0,
-    };
-    players.push(newPlayer);
-    this.setPlayers(players);
+    this.setPlayers([
+      ...this.getPlayers(),
+      {
+        id: this.getPlayers().length,
+        name: name,
+      },
+    ]);
   }
 
   getPlayers(): Player[] {

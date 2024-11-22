@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Round } from '../../interfaces/round.interface';
 import { PlayerService } from '../player/player.service';
-import { ScoreService } from './../score/score.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,10 +8,7 @@ import { ScoreService } from './../score/score.service';
 export class RoundService {
   private readonly LOCAL_ROUNDS = 'rounds';
 
-  constructor(
-    private readonly playerService: PlayerService,
-    private readonly scoreService: ScoreService
-  ) {}
+  constructor(private readonly playerService: PlayerService) {}
 
   createNewRound() {
     const players = this.playerService.getPlayers();
@@ -22,11 +18,11 @@ export class RoundService {
       for (let j = 0; j < players.length; j++) {
         if (i < j) {
           round.games.push({
-            player1: players[i],
-            player2: players[j],
+            player: players[i],
+            opponent: players[j],
             id: count,
-            score1: 0,
-            score2: 0,
+            playerScore: 0,
+            opponentScore: 0,
           });
           count++;
         }
@@ -41,12 +37,36 @@ export class RoundService {
     ) as Round[];
   }
 
+  getRoundById(roundId: number): Round {
+    const round = this.getRounds().find((round) => round.id === roundId);
+
+    if (!round) {
+      throw new Error(`Round com id ${roundId} não encontrado`);
+    }
+
+    return round;
+  }
+
   registerRound(newRound: Round) {
-    const currentRounds = this.getRounds();
-    newRound.games.forEach((game) => {
-      this.scoreService.updateScore(game);
-    });
-    currentRounds.push(newRound);
-    localStorage.setItem(this.LOCAL_ROUNDS, JSON.stringify(currentRounds));
+    // const rounds = this.getRounds();
+    // rounds.push(newRound);
+    this.setLocalRounds([...this.getRounds(), newRound]);
+  }
+
+  updateRound(updatedData: Round): void {
+    const rounds = this.getRounds();
+
+    const index = rounds.findIndex((round) => round.id === updatedData.id);
+    if (index === -1) {
+      throw new Error(`Round com id ${updatedData.id} não encontrado`);
+    }
+
+    rounds[index] = updatedData;
+
+    this.setLocalRounds(rounds);
+  }
+
+  setLocalRounds(rounds: Array<Round>): void {
+    localStorage.setItem(this.LOCAL_ROUNDS, JSON.stringify(rounds));
   }
 }

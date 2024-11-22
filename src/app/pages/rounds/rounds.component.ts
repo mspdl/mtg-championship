@@ -9,7 +9,7 @@ import { Round } from '../../interfaces/round.interface';
 import { RoundService } from '../../services/round/round.service';
 
 @Component({
-  selector: 'app-rounds',
+  selector: 'mtg-rounds',
   templateUrl: './rounds.component.html',
   styleUrls: ['./rounds.component.scss'],
   standalone: true,
@@ -35,7 +35,11 @@ export class RoundsComponent implements OnInit {
   }
 
   addRound() {
-    this.router.navigate(['/create-round']);
+    this.router.navigate(['/round']);
+  }
+
+  editRound(roundId: number){
+    this.router.navigate(['/round'], { state: { roundId } });
   }
 
   goToRanking() {

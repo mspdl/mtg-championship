@@ -5,7 +5,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-header',
+  selector: 'mtg-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   standalone: true,

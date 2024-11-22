@@ -15,7 +15,7 @@ import { Player } from '../../interfaces/player.interface';
 import { PlayerService } from '../../services/player/player.service';
 
 @Component({
-  selector: 'app-create-players',
+  selector: 'mtg-create-players',
   templateUrl: './create-players.component.html',
   styleUrls: ['./create-players.component.scss'],
   standalone: true,
