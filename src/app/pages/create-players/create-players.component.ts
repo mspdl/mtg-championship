@@ -45,12 +45,19 @@ export class CreatePlayersComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.players = this.playerService.getPlayers();
+    this.playerService.getApiPlayers().subscribe({
+      next: (apiPlayers) => {
+        console.log(apiPlayers);
+        this.players = apiPlayers;
+      },
+      error: () => {
+        alert('Não foi possível obter os jogadores no momento');
+      },
+    });
   }
 
   addPlayer() {
-    this.playerService.addNewPlayer('' + this.playerFormControl.value);
-    this.players = this.playerService.getPlayers();
+    this.playerService.addPlayer('' + this.playerFormControl.value);
     this.resetPlayerNameField();
   }
 
