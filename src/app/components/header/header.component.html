@@ -1,0 +1,25 @@
+<div class="header">
+  <button
+    mat-icon-button
+    [matMenuTriggerFor]="menu"
+    aria-label="Example icon-button with a menu"
+  >
+    <mat-icon class="header__menu-icon">menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="goToRanking()">
+      <mat-icon>trending_up</mat-icon>
+      <span>Ranking</span>
+    </button>
+    <button mat-menu-item (click)="goToRounds()">
+      <mat-icon>style</mat-icon>
+      <span>Rodadas</span>
+    </button>
+    <button mat-menu-item (click)="goToPlayers()">
+      <mat-icon>group</mat-icon>
+      <span>Jogadores</span>
+    </button>
+  </mat-menu>
+
+  <h1 class="header__title">MTG Barra</h1>
+</div>

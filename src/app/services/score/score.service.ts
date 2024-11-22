@@ -1,33 +1,70 @@
 import { Injectable } from '@angular/core';
-import { Game } from '../../interfaces/game.interface';
+import { PlayerScore } from '../../interfaces/player-score.interface';
 import { Player } from '../../interfaces/player.interface';
+import { Round } from '../../interfaces/round.interface';
 import { PlayerService } from '../player/player.service';
+import { RoundService } from '../round/round.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ScoreService {
-  constructor(private readonly playerService: PlayerService) {}
+  private _playersScore: Array<PlayerScore> = [];
 
-  updateScore(game: Game): void {
-    const players = this.playerService.getPlayers();
+  constructor(
+    private readonly playerService: PlayerService,
+    private readonly roundService: RoundService
+  ) {}
 
-    players.forEach((player) => {
-      if (this.isPlayerInGame(player, game.player1)) {
-        this.updatePlayerScore(player, game.score1, game.score2);
-      } else if (this.isPlayerInGame(player, game.player2)) {
-        this.updatePlayerScore(player, game.score2, game.score1);
-      }
+  getPlayersScore(): Array<PlayerScore> {
+    this.updateScore();
+    return this._playersScore;
+  }
+
+  updateScore(): void {
+    const rounds = this.roundService.getRounds();
+
+    this._playersScore = [];
+    this.playerService.getPlayers().forEach((player) => {
+      this._playersScore.push({
+        ...player,
+        score: 0,
+        wins: 0,
+        wins2x0: 0,
+        wins2x1: 0,
+      });
     });
 
-    this.playerService.setPlayers(players);
+    rounds.forEach((round) => {
+      round.games.forEach((game) => {
+        this._playersScore.forEach((player) => {
+          if (this.isPlayerInGame(player, game.player)) {
+            this.updatePlayerScore(
+              player,
+              game.playerScore,
+              game.opponentScore
+            );
+          } else if (this.isPlayerInGame(player, game.opponent)) {
+            this.updatePlayerScore(
+              player,
+              game.opponentScore,
+              game.playerScore
+            );
+          }
+        });
+      });
+    });
   }
 
   private isPlayerInGame(player: Player, gamePlayer: Player): boolean {
     return player.id === gamePlayer.id;
   }
 
-  private updatePlayerScore(player: Player, playerScore: number, opponentScore: number): void {
+  private updatePlayerScore(
+    player: PlayerScore,
+    playerScore: number,
+    opponentScore: number
+  ): void {
     player.score += playerScore;
 
     if (this.isWinner(playerScore)) {
@@ -39,12 +76,37 @@ export class ScoreService {
     return score === 2;
   }
 
-  private incrementWinCounters(player: Player, opponentScore: number): void {
-    player.winTimes += 1;
+  private incrementWinCounters(
+    player: PlayerScore,
+    opponentScore: number
+  ): void {
+    player.wins += 1;
     if (opponentScore === 0) {
-      player.win2x0Times += 1;
+      player.wins2x0 += 1;
     } else {
-      player.win2x1Times += 1;
+      player.wins2x1 += 1;
     }
+  }
+
+  countDirectWins(playerA: Player, playerB: Player): number {
+    let wins = 0;
+    const rounds: Round[] = this.roundService.getRounds();
+
+    rounds.forEach((round) => {
+      round.games.forEach((game) => {
+        if (
+          (game.player.id === playerA.id &&
+            game.opponent.id === playerB.id &&
+            game.playerScore > game.opponentScore) ||
+          (game.opponent.id === playerA.id &&
+            game.player.id === playerB.id &&
+            game.opponentScore > game.playerScore)
+        ) {
+          wins++;
+        }
+      });
+    });
+
+    return wins;
   }
 }
