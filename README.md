@@ -27,6 +27,7 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
 
 ## Create app
+
 `$ ng build --configuration production`
 
 `npx cap init`
@@ -36,8 +37,24 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 `npx cap open android`
 
 ## Update app
+
 `$ ng build --configuration production`
 
 `npx cap sync`
 
 `npx cap open android`
+
+---
+
+## Firebase Environment Configuration
+
+This project requires a Firebase configuration to connect to the Firestore database. Follow the steps below to set up your environment:
+
+### Step 1: Create `environment.ts`
+
+1. Copy the example environment file:
+```bash
+cp src/environments/environment.example.ts src/environments/environment.ts
+```
+
+2. Change the values of each key with the value from your firebase project
