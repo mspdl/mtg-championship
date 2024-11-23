@@ -1,7 +1,7 @@
 <div class="create-players">
   <div class="create-players__content">
-    <h2>Cadastro de jogadores</h2>
-    <form class="create-players__form">
+    <h2>Jogadores</h2>
+    <form *ngIf="false" class="create-players__form">
       <mat-form-field>
         <mat-label>Adicionar jogador</mat-label>
         <input
@@ -29,7 +29,7 @@
     </form>
 
     <ng-container *ngIf="players.length > 0; else emptyList">
-      <h3>Jogadores registrados</h3>
+      <h3 *ngIf="false">Jogadores registrados</h3>
       <mat-card
         appearance="outlined"
         *ngFor="let player of players"
