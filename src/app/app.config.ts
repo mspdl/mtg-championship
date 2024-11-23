@@ -18,9 +18,9 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     BrowserAnimationsModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => {
-      const app = initializeApp(environment.firebase);
+      const app = initializeApp(environment.firebaseConfig);
       return initializeFirestore(app, {
         localCache: persistentLocalCache(),
       });
