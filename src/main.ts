@@ -6,9 +6,3 @@ bootstrapApplication(AppComponent, appConfig).catch((err) =>
   console.error(err)
 );
 
-declare const window: any;
-
-export const environment = {
-  production: true,
-  firebase: window.__env?.firebase || {},
-};
