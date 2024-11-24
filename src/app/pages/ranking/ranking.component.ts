@@ -35,14 +35,16 @@ export class RankingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.rankingService.getPlayersByRanking().subscribe({
-      next: (players) => {
-        this.players = players.map((player, index) => ({
-          ...player,
-          position: index + 1,
-        }));
-      },
-    });
+    setTimeout(() => {
+      this.rankingService.getPlayersByRanking().subscribe({
+        next: (players) => {
+          this.players = players.map((player, index) => ({
+            ...player,
+            position: index + 1,
+          }));
+        },
+      });
+    }, 500);
   }
 
   goToPlayers() {
