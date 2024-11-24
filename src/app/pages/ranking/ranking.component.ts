@@ -7,7 +7,6 @@ import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Player } from '../../interfaces/player.interface';
 import { ColumnHeaderPipe } from '../../pipes/column-header.pipe';
-import { ScoreService } from '../../services/score/score.service';
 import { RankingService } from '../../services/ranking/ranking.service';
 
 @Component({
@@ -36,11 +35,14 @@ export class RankingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.players = this.rankingService.getPlayersByRanking();
-    this.players = this.players.map((player, index) => ({
-      ...player,
-      position: index + 1,
-    }));
+    this.rankingService.getPlayersByRanking().subscribe({
+      next: (players) => {
+        this.players = players.map((player, index) => ({
+          ...player,
+          position: index + 1,
+        }));
+      },
+    });
   }
 
   goToPlayers() {

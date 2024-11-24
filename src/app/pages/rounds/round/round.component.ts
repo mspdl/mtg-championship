@@ -45,7 +45,7 @@ export class RoundComponent implements OnInit {
       });
       this.editMode = true;
     } else {
-      this.roundService.createNewRound().subscribe({
+      this.roundService.createTempRound().subscribe({
         next: (round) => {
           this.round = round;
         },
@@ -56,8 +56,7 @@ export class RoundComponent implements OnInit {
   saveRound() {
     this.editMode
       ? this.roundService.updateRound(this.round)
-      : this.roundService.addRound(this.round);
-    this.rankingService.refreshRanking();
+      : this.roundService.createRound(this.round);
     this.goToRounds();
   }
 

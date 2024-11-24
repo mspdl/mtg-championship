@@ -18,14 +18,17 @@ import { PlayerService } from '../player/player.service';
   providedIn: 'root',
 })
 export class RoundService {
-  private readonly LOCAL_ROUNDS = 'rounds';
-
   constructor(
     private readonly playerService: PlayerService,
     private firestore: Firestore
   ) {}
 
-  getRoundsApi(): Observable<Round[]> {
+  createRound(newRound: Round): Observable<void> {
+    const playersRef = collection(this.firestore, 'rounds');
+    return from(addDoc(playersRef, newRound).then(() => {}));
+  }
+
+  getRounds(): Observable<Round[]> {
     const roundsRef = collection(this.firestore, 'rounds');
     const roundsQuery = query(roundsRef, orderBy('createdAt', 'asc'));
 
@@ -34,7 +37,17 @@ export class RoundService {
     >;
   }
 
-  createNewRound(): Observable<Round> {
+  getRoundById(roundId: string): Observable<Round> {
+    const roundDocRef = doc(this.firestore, `rounds/${roundId}`);
+    return docData(roundDocRef, { idField: 'id' }) as Observable<Round>;
+  }
+
+  updateRound(round: Partial<Round>): Observable<void> {
+    const roundDocRef = doc(this.firestore, `rounds/${round.id}`);
+    return from(updateDoc(roundDocRef, round));
+  }
+
+  createTempRound(): Observable<Round> {
     const uniqueId = Date.now().toString();
 
     return this.playerService.getPlayers().pipe(
@@ -60,26 +73,5 @@ export class RoundService {
         return round;
       })
     );
-  }
-
-  getRounds() {
-    return JSON.parse(
-      localStorage.getItem(this.LOCAL_ROUNDS) || '[]'
-    ) as Round[];
-  }
-
-  addRound(newRound: Round): Observable<void> {
-    const playersRef = collection(this.firestore, 'rounds');
-    return from(addDoc(playersRef, newRound).then(() => {}));
-  }
-
-  getRoundById(roundId: string): Observable<Round> {
-    const roundDocRef = doc(this.firestore, `rounds/${roundId}`);
-    return docData(roundDocRef, { idField: 'id' }) as Observable<Round>;
-  }
-
-  updateRound(round: Partial<Round>): Observable<void> {
-    const roundDocRef = doc(this.firestore, `rounds/${round.id}`);
-    return from(updateDoc(roundDocRef, round));
   }
 }

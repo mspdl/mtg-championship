@@ -31,7 +31,7 @@ export class RoundsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.roundService.getRoundsApi().subscribe({
+    this.roundService.getRounds().subscribe({
       next: (rounds) => {
         this.rounds = rounds;
       },
