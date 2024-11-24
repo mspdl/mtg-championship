@@ -31,14 +31,18 @@ export class RoundsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.rounds = this.roundService.getRounds();
+    this.roundService.getRoundsApi().subscribe({
+      next: (rounds) => {
+        this.rounds = rounds;
+      },
+    });
   }
 
   addRound() {
     this.router.navigate(['/round']);
   }
 
-  editRound(roundId: number){
+  editRound(roundId: string) {
     this.router.navigate(['/round'], { state: { roundId } });
   }
 

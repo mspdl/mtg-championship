@@ -45,9 +45,8 @@ export class CreatePlayersComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.playerService.getApiPlayers().subscribe({
+    this.playerService.getPlayers().subscribe({
       next: (apiPlayers) => {
-        console.log(apiPlayers);
         this.players = apiPlayers;
       },
       error: () => {

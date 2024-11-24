@@ -25,14 +25,18 @@ export class ScoreService {
     const rounds = this.roundService.getRounds();
 
     this._playersScore = [];
-    this.playerService.getPlayers().forEach((player) => {
-      this._playersScore.push({
-        ...player,
-        score: 0,
-        wins: 0,
-        wins2x0: 0,
-        wins2x1: 0,
-      });
+    this.playerService.getPlayers().subscribe({
+      next: (players) => {
+        players.forEach((player) => {
+          this._playersScore.push({
+            ...player,
+            score: 0,
+            wins: 0,
+            wins2x0: 0,
+            wins2x1: 0,
+          });
+        });
+      },
     });
 
     rounds.forEach((round) => {

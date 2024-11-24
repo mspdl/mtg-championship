@@ -1,5 +1,6 @@
 <div class="new-round">
-  <h2>Nova rodada</h2>
+  <h2 *ngIf="!editMode">Nova rodada</h2>
+  <h2 *ngIf="editMode">Editar rodada</h2>
   <div
     *ngFor="let game of round?.games; let index = index"
     class="new-round__game"
@@ -26,11 +27,15 @@
     </div>
   </div>
 
+  <div class="password">
+    Senha: <input type="password" name="" id="" [(ngModel)]="password" />
+  </div>
+
   <div class="new-round__footer">
     <button mat-raised-button (click)="goToRounds()">Voltar</button>
 
-    <button mat-flat-button (click)="saveRound()" >
-    <!-- <button mat-flat-button (click)="saveRound()" [disabled]="!isRoundValid()"> -->
+    <button mat-flat-button (click)="saveRound()" [disabled]="password !== secret">
+      <!-- <button mat-flat-button (click)="saveRound()" [disabled]="!isRoundValid()"> -->
       Gravar Rodada
     </button>
   </div>

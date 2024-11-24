@@ -15,15 +15,13 @@ import { Player } from '../../interfaces/player.interface';
   providedIn: 'root',
 })
 export class PlayerService {
-  _players: Array<Player> = [];
-
   constructor(private firestore: Firestore) {}
 
-  getApiPlayers(): Observable<Player[]> {
+  getPlayers(): Observable<Player[]> {
     const playersRef = collection(this.firestore, 'players');
-    return collectionData(playersRef, { idField: 'id' }) as Observable<
-      Player[]
-    >;
+    return collectionData(playersRef, {
+      idField: 'id',
+    }) as Observable<Player[]>;
   }
 
   addPlayer(name: string): Observable<void> {
@@ -44,11 +42,4 @@ export class PlayerService {
     return from(deleteDoc(playerDocRef));
   }
 
-  getPlayers(): Player[] {
-    return this._players;
-  }
-
-  setPlayers(players: Player[]) {
-    localStorage.setItem('players', JSON.stringify(players));
-  }
 }

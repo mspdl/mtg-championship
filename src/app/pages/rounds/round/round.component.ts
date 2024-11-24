@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { Router } from '@angular/router';
+import { environment } from '../../../../environments/environment';
 import { Round } from '../../../interfaces/round.interface';
 import { RoundService } from '../../../services/round/round.service';
 import { RankingService } from './../../../services/ranking/ranking.service';
@@ -22,8 +23,10 @@ import { RankingService } from './../../../services/ranking/ranking.service';
 })
 export class RoundComponent implements OnInit {
   round!: Round;
-  roundId!: number;
+  roundId!: string;
   editMode = false;
+  password!: string;
+  secret = environment.password;
 
   constructor(
     private readonly roundService: RoundService,
@@ -35,17 +38,25 @@ export class RoundComponent implements OnInit {
     this.roundId = history.state.roundId;
 
     if (this.roundId) {
-      this.round = this.roundService.getRoundById(this.roundId);
+      this.roundService.getRoundById(this.roundId).subscribe({
+        next: (round) => {
+          this.round = round;
+        },
+      });
       this.editMode = true;
     } else {
-      this.round = this.roundService.createNewRound();
+      this.roundService.createNewRound().subscribe({
+        next: (round) => {
+          this.round = round;
+        },
+      });
     }
   }
 
   saveRound() {
     this.editMode
       ? this.roundService.updateRound(this.round)
-      : this.roundService.registerRound(this.round);
+      : this.roundService.addRound(this.round);
     this.rankingService.refreshRanking();
     this.goToRounds();
   }

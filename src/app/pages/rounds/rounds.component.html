@@ -6,11 +6,11 @@
       <mat-expansion-panel
         (opened)="panelOpenState.set(true)"
         (closed)="panelOpenState.set(false)"
-        *ngFor="let round of rounds; last as last"
+        *ngFor="let round of rounds; last as last; index as index"
       >
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <span>Rodada {{ round.id }}</span>
+            <span>Rodada {{ index + 1 }}</span>
           </mat-panel-title>
           <mat-icon *ngIf="last" (click)="editRound(round.id)" style="padding-right: 20px;">edit</mat-icon>
           <mat-panel-description> </mat-panel-description>

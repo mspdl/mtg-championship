@@ -1,4 +1,16 @@
 import { Injectable } from '@angular/core';
+import {
+  addDoc,
+  collection,
+  collectionData,
+  doc,
+  docData,
+  Firestore,
+  orderBy,
+  query,
+  updateDoc,
+} from '@angular/fire/firestore';
+import { from, map, Observable } from 'rxjs';
 import { Round } from '../../interfaces/round.interface';
 import { PlayerService } from '../player/player.service';
 
@@ -8,27 +20,46 @@ import { PlayerService } from '../player/player.service';
 export class RoundService {
   private readonly LOCAL_ROUNDS = 'rounds';
 
-  constructor(private readonly playerService: PlayerService) {}
+  constructor(
+    private readonly playerService: PlayerService,
+    private firestore: Firestore
+  ) {}
 
-  createNewRound() {
-    const players = this.playerService.getPlayers();
-    const round: Round = { id: this.getRounds().length + 1, games: [] };
-    let count = 1;
-    for (let i = 0; i < players.length; i++) {
-      for (let j = 0; j < players.length; j++) {
-        if (i < j) {
-          round.games.push({
-            player: players[i],
-            opponent: players[j],
-            id: count,
-            playerScore: 0,
-            opponentScore: 0,
-          });
-          count++;
+  getRoundsApi(): Observable<Round[]> {
+    const roundsRef = collection(this.firestore, 'rounds');
+    const roundsQuery = query(roundsRef, orderBy('createdAt', 'asc'));
+
+    return collectionData(roundsQuery, { idField: 'id' }) as Observable<
+      Round[]
+    >;
+  }
+
+  createNewRound(): Observable<Round> {
+    const uniqueId = Date.now().toString();
+
+    return this.playerService.getPlayers().pipe(
+      map((players) => {
+        const round: Round = { id: '', createdAt: uniqueId, games: [] };
+        let count = 1;
+
+        for (let i = 0; i < players.length; i++) {
+          for (let j = 0; j < players.length; j++) {
+            if (i < j) {
+              round.games.push({
+                player: players[i],
+                opponent: players[j],
+                id: count,
+                playerScore: 0,
+                opponentScore: 0,
+              });
+              count++;
+            }
+          }
         }
-      }
-    }
-    return round;
+
+        return round;
+      })
+    );
   }
 
   getRounds() {
@@ -37,36 +68,18 @@ export class RoundService {
     ) as Round[];
   }
 
-  getRoundById(roundId: number): Round {
-    const round = this.getRounds().find((round) => round.id === roundId);
-
-    if (!round) {
-      throw new Error(`Round com id ${roundId} não encontrado`);
-    }
-
-    return round;
+  addRound(newRound: Round): Observable<void> {
+    const playersRef = collection(this.firestore, 'rounds');
+    return from(addDoc(playersRef, newRound).then(() => {}));
   }
 
-  registerRound(newRound: Round) {
-    // const rounds = this.getRounds();
-    // rounds.push(newRound);
-    this.setLocalRounds([...this.getRounds(), newRound]);
+  getRoundById(roundId: string): Observable<Round> {
+    const roundDocRef = doc(this.firestore, `rounds/${roundId}`);
+    return docData(roundDocRef, { idField: 'id' }) as Observable<Round>;
   }
 
-  updateRound(updatedData: Round): void {
-    const rounds = this.getRounds();
-
-    const index = rounds.findIndex((round) => round.id === updatedData.id);
-    if (index === -1) {
-      throw new Error(`Round com id ${updatedData.id} não encontrado`);
-    }
-
-    rounds[index] = updatedData;
-
-    this.setLocalRounds(rounds);
-  }
-
-  setLocalRounds(rounds: Array<Round>): void {
-    localStorage.setItem(this.LOCAL_ROUNDS, JSON.stringify(rounds));
+  updateRound(round: Partial<Round>): Observable<void> {
+    const roundDocRef = doc(this.firestore, `rounds/${round.id}`);
+    return from(updateDoc(roundDocRef, round));
   }
 }
